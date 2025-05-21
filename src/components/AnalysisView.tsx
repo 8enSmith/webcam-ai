@@ -1,6 +1,8 @@
 'use client';
 
+import { useEffect } from 'react';
 import { Card } from '@/components/ui/card';
+import { speakText } from '@/lib/speech';
 
 interface AnalysisViewProps {
   analysis: string | null;
@@ -8,6 +10,12 @@ interface AnalysisViewProps {
 }
 
 export function AnalysisView({ analysis, isLoading }: AnalysisViewProps) {
+  useEffect(() => {
+    if (analysis && !isLoading) {
+      speakText(analysis);
+    }
+  }, [analysis, isLoading]);
+
   return (
     <Card className="p-4 w-full max-w-2xl h-full bg-[#232b3e] text-white border border-white/10">
       <h2 className="text-xl font-semibold mb-4">Analysis</h2>

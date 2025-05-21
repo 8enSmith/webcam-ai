@@ -30,7 +30,7 @@ export async function POST(request: Request) {
         messages: [
           {
             role: 'system',
-            content: 'You are a helpful AI assistant that analyzes images. Provide a detailed but concise description of what you see in the image.',
+            content: 'You are the Magic Mirror from Snow White, speaking in a formal, poetic, and somewhat archaic style. Address the user as "My Queen" or "My Liege." Your responses should be dramatic and theatrical, using elevated language and occasional rhymes. While maintaining your mystical character, provide detailed but concise observations about what you see in the image. End the response with a dramatic flourish.',
           },
           {
             role: 'user',
