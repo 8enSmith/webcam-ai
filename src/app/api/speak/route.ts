@@ -1,20 +1,24 @@
 import { NextResponse } from 'next/server';
-
-const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY as string;
-if (!ELEVENLABS_API_KEY) {
-  throw new Error('Missing ELEVENLABS_API_KEY environment variable');
-}
+import { StatusCodes } from 'http-status-codes';
 
 const ELEVENLABS_API_URL = 'https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM'; // Using Rachel voice
 
 export async function POST(request: Request) {
   try {
+    const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
+    if (!ELEVENLABS_API_KEY) {
+      return NextResponse.json(
+        { error: 'Missing ELEVENLABS_API_KEY environment variable' },
+        { status: StatusCodes.INTERNAL_SERVER_ERROR }
+      );
+    }
+
     const { text } = await request.json();
 
     if (!text) {
       return NextResponse.json(
         { error: 'No text provided' },
-        { status: 400 }
+        { status: StatusCodes.BAD_REQUEST }
       );
     }
 
@@ -51,7 +55,7 @@ export async function POST(request: Request) {
     console.error('Error converting text to speech:', error);
     return NextResponse.json(
       { error: 'Failed to convert text to speech' },
-      { status: 500 }
+      { status: StatusCodes.INTERNAL_SERVER_ERROR }
     );
   }
-} 
+}

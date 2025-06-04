@@ -53,8 +53,8 @@ export function WebcamView({ onAnalyze, isAnalyzing }: WebcamViewProps) {
   };
 
   return (
-    <Card className="p-4 w-full max-w-2xl bg-[#232b3e] text-white border border-white/10">
-      <div className="relative aspect-video bg-black rounded-lg overflow-hidden">
+    <Card className="p-4 w-full bg-[#232b3e] text-white border border-white/10">
+      <div className="relative aspect-[3/4] bg-black rounded-lg overflow-hidden">
         <video
           ref={videoRef}
           autoPlay
@@ -73,7 +73,7 @@ export function WebcamView({ onAnalyze, isAnalyzing }: WebcamViewProps) {
           disabled={!isStreaming || isAnalyzing}
           className="w-full max-w-xs"
         >
-          {isAnalyzing ? 'Analyzing...' : 'What is this?'}
+          {isAnalyzing ? 'Analyzing...' : 'Mirror, mirror on the wall...'}
         </Button>
       </div>
     </Card>

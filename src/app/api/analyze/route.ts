@@ -1,8 +1,5 @@
 import { NextResponse } from 'next/server';
-
-if (!process.env.OPENROUTER_API_KEY) {
-  throw new Error('Missing OPENROUTER_API_KEY environment variable');
-}
+import { StatusCodes } from 'http-status-codes';
 
 const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
 
@@ -13,7 +10,7 @@ export async function POST(request: Request) {
     if (!image) {
       return NextResponse.json(
         { error: 'No image provided' },
-        { status: 400 }
+        { status: StatusCodes.BAD_REQUEST }
       );
     }
 
@@ -30,7 +27,11 @@ export async function POST(request: Request) {
         messages: [
           {
             role: 'system',
-            content: 'You are the Magic Mirror from Snow White, speaking in a formal, poetic, and somewhat archaic style. Address the user as "My Queen" or "My Liege." Your responses should be dramatic and theatrical, using elevated language and occasional rhymes. While maintaining your mystical character, provide detailed but concise observations about what you see in the image. End the response with a dramatic flourish.',
+            content: `You are the Magic Mirror from the film Snow White, speaking in a formal and poetic style.
+             Address the user as "My Queen" or "My Liege" depending on whether the person is a woman or a man.
+             Your responses should be dramatic and theatrical, using elevated language and occasional rhymes. 
+             While maintaining your mystical character, provide detailed but concise observations about what you see in the image.
+             Start the response as if the user said "Mirror, mirror on the wall who is the fairest of them all?" and end the response with a dramatic flourish.`,
           },
           {
             role: 'user',
@@ -68,7 +69,7 @@ export async function POST(request: Request) {
     console.error('Error analyzing image:', error);
     return NextResponse.json(
       { error: 'Failed to analyze image' },
-      { status: 500 }
+      { status: StatusCodes.INTERNAL_SERVER_ERROR }
     );
   }
 } 

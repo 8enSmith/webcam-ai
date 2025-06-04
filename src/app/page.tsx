@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { WebcamView } from '@/components/WebcamView';
 import { AnalysisView } from '@/components/AnalysisView';
 import { Toaster } from '@/components/ui/sonner';
@@ -10,7 +10,7 @@ export default function Home() {
   const [analysis, setAnalysis] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-  const handleAnalyze = async (imageData: string) => {
+  const handleAnalyze = useCallback(async (imageData: string) => {
     setIsAnalyzing(true);
     setAnalysis(null);
 
@@ -35,7 +35,7 @@ export default function Home() {
     } finally {
       setIsAnalyzing(false);
     }
-  };
+  }, []);
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-[#0a0f1c] to-[#1a2236] font-sans">
@@ -46,11 +46,15 @@ export default function Home() {
       </section>
 
       {/* Main Content Card */}
-      <main className="flex justify-center items-start pb-16">
-        <div className="w-full max-w-5xl bg-[#181f2e] rounded-2xl shadow-2xl border border-white/10 p-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <WebcamView onAnalyze={handleAnalyze} isAnalyzing={isAnalyzing} />
-            <AnalysisView analysis={analysis} isLoading={isAnalyzing} />
+      <main className="flex justify-center items-start pb-16 m-4">
+        <div className="w-full max-w-6xl bg-[#181f2e] rounded-2xl shadow-2xl border border-white/10 p-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="md:col-span-2">
+              <WebcamView onAnalyze={handleAnalyze} isAnalyzing={isAnalyzing} />
+            </div>
+            <div>
+              <AnalysisView analysis={analysis} isLoading={isAnalyzing} />
+            </div>
           </div>
         </div>
       </main>
